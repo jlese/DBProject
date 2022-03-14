@@ -20,13 +20,13 @@ CREATE TABLE IF NOT EXISTS Host (
     PRIMARY KEY (h_uname)
 );
 
-CREATE TABLE IF NOT EXISTS 'Renter' (
+CREATE TABLE IF NOT EXISTS Renter (
     r_uname VARCHAR(10) NOT NULL REFERENCES Account(username),
     r_avg_rating FLOAT DEFAULT NULL,
     PRIMARY KEY (r_uname)
 );
 
-CREATE TABLE IF NOT EXISTS 'Admin' (
+CREATE TABLE IF NOT EXISTS Admin (
     a_uname VARCHAR(10) NOT NULL REFERENCES Account(username),
     region VARCHAR(10) NOT NULL,
     PRIMARY KEY (a_uname)
