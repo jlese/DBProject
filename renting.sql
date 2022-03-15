@@ -10,6 +10,7 @@ CREATE TABLE IF NOT EXISTS Account (
     username VARCHAR(10) NOT NULL,
     first_name VARCHAR(20) NOT NULL,
     last_name VARCHAR(20) NOT NULL,
+    email VARCHAR(60) NOT NULL,
     PRIMARY KEY (username)
     
 );
@@ -35,6 +36,7 @@ CREATE TABLE IF NOT EXISTS Administrator (
 CREATE TABLE IF NOT EXISTS Properties (
     p_id VARCHAR(10) NOT NULL.
     addr VARCHAR(10) NOT NULL,
+    price INT NOT NULL,
     num_bathrooms INT NOT NULL,
     kitchen BIT NOT NULL, -- 0 = no kitchen, 1 = kitchen
     pool BIT NOT NULL,
