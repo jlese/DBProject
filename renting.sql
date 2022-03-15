@@ -132,6 +132,5 @@ BEGIN
         where Properties.p_id = Rates.p_id;
 $$
 DELIMITER ;
-2
 
 
