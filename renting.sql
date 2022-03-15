@@ -111,18 +111,27 @@ BEGIN
 
     
     Update Host 
-    set numRates = numRates +1 where Host.h_uname = Rates.h_uname
-    set h_avg_rating = (h_avg_rating*(numRates-1) + Rates.h_rating)/(num_Rates) where Host.h_uname = Rates.h_uname
+        set numRates = numRates +1 
+        where Host.h_uname = Rates.h_uname;
+    Update Host
+        set h_avg_rating = (h_avg_rating*(numRates-1) + Rates.h_rating)/(num_Rates) 
+        where Host.h_uname = Rates.h_uname;
 
     Update Renter
-    set numRates = numRates +1 where Renter.r_uname = Rates.r_uname
-    set r_avg_rating = (r_avg_rating*(numRates-1) + Rates.r_rating)/(num_Rates) where Renter.r_uname = Rates.r_uname
+        set numRates = numRates +1 
+        where Renter.r_uname = Rates.r_uname;
+    Update Renter
+        set r_avg_rating = (r_avg_rating*(numRates-1) + Rates.r_rating)/(num_Rates) 
+        where Renter.r_uname = Rates.r_uname;
 
     Update Properties 
-    set numRates = numRates +1 where Properties.p_id = Rates.p_id
-    set p_avg_rating = (p_avg_rating*(numRates-1) + Rates.p_rating)/(num_Rates) where Properties.p_id = Rates.p_id
+        set numRates = numRates +1 
+        where Properties.p_id = Rates.p_id;
+    Update Properties 
+        set p_avg_rating = (p_avg_rating*(numRates-1) + Rates.p_rating)/(num_Rates) 
+        where Properties.p_id = Rates.p_id;
 $$
 DELIMITER ;
-
+2
 
 
