@@ -12,7 +12,7 @@ CREATE TABLE IF NOT EXISTS Account (
     last_name VARCHAR(20) NOT NULL,
     email VARCHAR(60) NOT NULL,
     PRIMARY KEY (username)
-    
+     
 );
 
 CREATE TABLE IF NOT EXISTS Host (
