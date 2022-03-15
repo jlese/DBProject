@@ -8,7 +8,7 @@ GRANT ALL PRIVILEGES ON jwl4vg.* TO 'jwl4vg_c'@'%';
 
 CREATE TABLE IF NOT EXISTS Account (
     username VARCHAR(10) NOT NULL,
-    first_name VARCHAR(20) NOT NULL,
+    first_name VARCHAR(20) NOT NULL,  
     last_name VARCHAR(20) NOT NULL,
     email VARCHAR(60) NOT NULL,
     PRIMARY KEY (username)
