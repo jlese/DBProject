@@ -18,12 +18,14 @@ CREATE TABLE IF NOT EXISTS Account (
 CREATE TABLE IF NOT EXISTS Host (
     h_uname VARCHAR(10) NOT NULL REFERENCES Account(username),
     h_avg_rating FLOAT DEFAULT NULL,
+    numRates INT DEFAULT 0;
     PRIMARY KEY (h_uname)
 );
 
 CREATE TABLE IF NOT EXISTS Renter (
     r_uname VARCHAR(10) NOT NULL REFERENCES Account(username),
     r_avg_rating FLOAT DEFAULT NULL,
+    numRates INT DEFAULT 0;
     PRIMARY KEY (r_uname)
 );
 
@@ -36,7 +38,7 @@ CREATE TABLE IF NOT EXISTS Administrator (
 CREATE TABLE IF NOT EXISTS Properties (
     p_id VARCHAR(10) NOT NULL.
     addr VARCHAR(10) NOT NULL,
-    price INT NOT NULL,
+    price INT NOT NULL CHECK (price > 5),
     num_bathrooms INT NOT NULL,
     kitchen BIT NOT NULL, -- 0 = no kitchen, 1 = kitchen
     pool BIT NOT NULL,
@@ -44,6 +46,7 @@ CREATE TABLE IF NOT EXISTS Properties (
     rating FLOAT DEFAULT NULL,
     parking BIT NOT NULL,
     p_avg_rating FLOAT DEFAULT NULL,
+    numRates INT DEFAULT 0;
     PRIMARY KEY (p_id)
 );
 
@@ -68,9 +71,9 @@ CREATE TABLE IF NOT EXISTS Rates (
     h_uname VARCHAR(10) NOT NULL REFERENCES Host(h_uname),
     r_uname VARCHAR(10) NOT NULL REFERENCES Renter(r_uname),
     addr VARCHAR(10) NOT NULL REFERENCES Properties(addr),
-    h_rating FLOAT NOT NULL,
-    r_rating FLOAT NOT NULL,
-    p_rating FLOAT NOT NULL,
+    h_rating FLOAT NOT NULL CHECK (h_rating <=5 AND h_rating >=1),
+    r_rating FLOAT NOT NULL CHECK (r_rating <=5 AND r_rating >=1),
+    p_rating FLOAT NOT NULL CHECK (p_rating <=5 AND p_rating >=1),
     PRIMARY KEY (p_id, h_uname, r_uname)
     
 );
@@ -96,3 +99,30 @@ CREATE TABLE IF NOT EXISTS R_Request (
     PRIMARY KEY (t_id, r_uname, a_uname)
 
 );
+
+
+DELIMITER $$
+CREATE TRIGGER h_rateTrigger
+AFTER INSERT ON Rates
+BEGIN
+    -- SET NOCOUNT ON added to prevent extra result sets from
+    -- interfering with SELECT statements.
+    SET NOCOUNT ON;
+
+    
+    Update Host 
+    set numRates = numRates +1 where Host.h_uname = Rates.h_uname
+    set h_avg_rating = (h_avg_rating*(numRates-1) + Rates.h_rating)/(num_Rates) where Host.h_uname = Rates.h_uname
+
+    Update Renter
+    set numRates = numRates +1 where Renter.r_uname = Rates.r_uname
+    set r_avg_rating = (r_avg_rating*(numRates-1) + Rates.r_rating)/(num_Rates) where Renter.r_uname = Rates.r_uname
+
+    Update Properties 
+    set numRates = numRates +1 where Properties.p_id = Rates.p_id
+    set p_avg_rating = (p_avg_rating*(numRates-1) + Rates.p_rating)/(num_Rates) where Properties.p_id = Rates.p_id
+$$
+DELIMITER ;
+
+
+
